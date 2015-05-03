@@ -55,6 +55,8 @@ window.onload=function(){
 	Perfect HTML skills, general knowledge for write javascript codes.
 	
 	(Sory for my English skills). 
+
+  
 	
 	A magyar nyelvű leírást is mellékelem majd hamarosan, ha egyszer oda jutok :)
 	
