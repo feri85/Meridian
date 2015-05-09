@@ -154,6 +154,14 @@ Me.defineMember=function(){
 			i++;
 		};
 		//css maker
+		if(!window['stylesets']){
+			cssnode.setMember('stylesets>style');
+			stylesets.type='text/css';
+			stylesets.modify();
+			txt=document.createTextNode('');
+			stylesets.member.appendChild(txt);
+			document.head.appendChild(stylesets.member);
+		};
 		rule_editor=function(process,e){
 			var items=Object.keys(process);
 			var props='';
@@ -195,14 +203,6 @@ Me.defineMember=function(){
 				rule_editor(report,'');
 			}
 		}();
-		if(!window['stylesets']){
-			cssnode.setMember('stylesets>style');
-			stylesets.type='text/css';
-			stylesets.modify();
-			txt=document.createTextNode('');
-			stylesets.member.appendChild(txt);
-			document.head.appendChild(stylesets.member);
-		};
 	};
 	this.get=function(requested){
 		if(typeof requested=='string'){
