@@ -128,9 +128,18 @@ Me.defineMember=function(){
 	this.component_data={};
 	this.err_log='no';
 	this.modify=function(){
-		var pref=null, i=0;
+		var block='', report={}, selector=[],calc=[], number=null, txt=null, bound='';
+		var selfTag=this.member.parentNode.tagName.toLowerCase(), that=this, valid=Me.Drive.attributes, cssnode=new Me.CraftNew() ;
+		var pref=null, i=0, d=0; 
 		this.constructor.combine(this,this.component_data);
 		var propdata=Object.keys(this.component_data);
+		//browsercheck
+		var browsertype=function(pref){
+			if(pref.indexOf('m_')>-1 && navigator.userAgent.indexOf('Firefox')){return '-moz-'+pref.replace('m_','')};
+			if(pref.indexOf('c_')>-1 && navigator.userAgent.indexOf('Chrome')){return '-webkit-'+pref.replace('c_','')};
+			if(pref.indexOf('o_')>-1 && navigator.userAgent.match('OPR|Opera') instanceof Array){return '-o-'+pref.replace('o_','')}
+			return pref;
+		}
 		for(var c in this.component_data){
 			if(typeof this.component_data[c]!='function' && typeof this.component_data[c]!='object'){
 				if(propdata[i]=="text"){
@@ -143,6 +152,56 @@ Me.defineMember=function(){
 				};
 			};
 			i++;
+		};
+		//css maker
+		rule_editor=function(process,e){
+			var items=Object.keys(process);
+			var props='';
+			if(typeof items[0]!='undefined'){
+				for(var mark in process){
+					mark=browsertype(mark);
+					props+='\t\t'+mark.replace('_','-')+':'+process[mark]+';\n';
+					calc=[];
+				}
+				try{
+					calc.push(that.member.attributes['component'].value);
+					calc.push(that.member.attributes['component'].nodeName)
+				}catch(err){
+						that.err_log='This property cannot be set, or not allowed!';
+				};
+				
+				Me.bound+=selfTag+' ['+calc[1]+'='+calc[0]+']'+e+'{\n'+props+'}\n'
+				stylesets.member.textContent=Me.bound;
+			};
+		};
+		var css_perform=function(){ 
+			if(typeof that.css=='function'){
+				rule_editor(new that.css(),'');
+			}
+			if(Object.keys(that)){
+				for(var q in that){
+					if(q[0]=='@' && typeof that[q]=='function'){
+						var ev=q.replace('@',':');
+					rule_editor(new that[q](),ev);
+					}
+				}
+			}
+			if(Object.keys(that.css)){
+				for(var n in that.css){
+					if(typeof that.css[n]=='string' && n[0]!=('@')){
+						report[n]=that.css[n];
+					}
+				};
+				rule_editor(report,'');
+			}
+		}();
+		if(!window['stylesets']){
+			cssnode.setMember('stylesets>style');
+			stylesets.type='text/css';
+			stylesets.modify();
+			txt=document.createTextNode('');
+			stylesets.member.appendChild(txt);
+			document.head.appendChild(stylesets.member);
 		};
 	};
 	this.get=function(requested){
