@@ -3,13 +3,41 @@
   <head>
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-
+    <title>Meridian by feri85</title>
     <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
     <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
     <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
     <script type='text/javascript' src='./engine/ns_meridian.js'></script>
     <script type='text/javascript' src='./javascripts/test_script.js'></script>
-    <title>Meridian by feri85</title>
+    <style type='text/css'>
+		input{
+			width:80px;
+			height:17px;
+			font-size:11px;
+			font-family:arial;
+		}
+		input.valuepicker{
+			width:200px;
+		}
+		.eg{
+			position:relative;
+			margin-left:50px;
+			font-family:courier;
+			font-size:14px;
+		}
+		.paragraph{
+			margin-left:20px;
+		}
+		#editor{
+			font-family:courier;
+			font-size:14px;
+		}
+		#changenode{
+			height:20px;
+		}
+	
+	</style>
+   
   </head>
 
   <body>
@@ -63,13 +91,121 @@ Javascript-alapvető ismerete szükséges.</p>
 <p>More Info, Több információ a programról: 
 Github Meridian Readme,
 contact the author.</p>
+<br>
+
+<div>
+    <h2>Meidian quicktest:</h2>
+</div>
+<br>
+
+<div id='start_app'>
+		<h3>To setting up the application:</h3>
+		<p class='paragraph'>To use meridian, need to set first this sort text once in a javascript declaration field.</p>
+		<div class='eg'>
+			<p >var meridian=new Me.nsMeridian();</p>
+		</div>
+	</div>
+	<div id='setting_elements'>
+		<h3>Generating elements:</h3>
+		<p class='paragraph' >When the meridian has setting up in the page the following tool create html elements, you want.</p>
+		<div class='eg'>
+			<p id='creator'>
+				Member({<br>
+					&nbsp&nbsp1:{name:'<input type='text' value='myelement'></input>>div',attributes:'<input type='text' class='valuepicker' value='id>myid>alt>nothing'></input>'},<br> 
+					&nbsp&nbsp2:{name:'box>div',attributes:'id>tools>class>steelworks'},<br>
+					&nbsp&nbspn:{name:'...>..',attributes:...n>...'},<br>
+				});
+			</p>
+		</div>
+		<p class='paragraph'>
+			In this example, the element descriptor consists for objects, that's are limited items in a list.<br>
+			the element properties need to separate by '>', and places in an string expression.<br>
+			If the element has created, basically appear on the body tag, and together width come into begin<br>
+			an other Member object, that places in the DOM-WINDOW. Now this time, we have accessing this 'html-item'<br>
+			all of has properties by this 'member' object, and it's allow to modify them, query them immediately.<br>
+			The attributes constitute of pairs : name>value1, but it may be a long string form like this name>value1>..>..<br>
+		</p>
+		<p class='paragraph'>
+			The other case for set a new element, has given as an easiest form, now we can set the value var member=Member({}),<br>
+			and call the setMember() function, with the arguments, first is the name of element an the second is the attribute set.
+		</p>
+		<div class='eg'>
+			<p>
+				member.setMember('name>ol','id>plants>class>trees');
+			</p>
+		</div>
+	</div>
+	<div id='setting_attributes:'>
+		<h3>Set the member attributes:</h3>
+		<p class='paragraph'>
+			When an member set or emulated, you can change, add any attributes.Add, set attributes an closer way<br>
+			or across by the 'member' property.
+		</p>
+		<div class='eg'>
+			<p>
+				membername.id='spoon';	<br>
+				membername.name='rounded';<br>
+				membername.css.background_color='#a8b';<br>
+				membername.modify();<br>
+				<br>
+				<table id='editor'>
+				<tr>
+					<td>
+						egg.css.background_color=
+					</td>
+					<td>
+						<input type='text' value='blue' id='stiling1'>;
+					</td>
+				</tr>
+				<tr>
+					<td>
+						egg.css.width=
+					</td>
+					<td>
+						<input type='text' value='150px' id='stiling2'>;
+					</td>
+				</tr>
+				<tr>
+					<td>
+						egg.css.height=
+					</td>
+					<td>
+						<input type='text' value='100px' id='stiling3'>;
+					</td>
+				</tr>
+				<tr>
+					<td>
+						egg.css.margin=
+					</td>
+					<td>
+						<input type='text' value='20px' id='stiling4'>;
+					</td>
+				</tr>
+				<tr>
+					<td>
+						egg.text=
+					</td>
+					<td>
+						<input type='text' value='type a text here' id='stiling5'class='valuepicker'>;
+					</td>
+				</tr>
+				</table>
+				egg.modify();<br><br>
+				egg['@hover']=function(){<br>
+					&nbsp&nbspthis.background_color='#d58';<br>
+				}
+				egg.modify();<br>
+			
+			</p>
+		</div>
+		<p class='paragraph'>Change egg attributes: <input type='button' id='changenode' value='modify egg'></p><br>
+	</div>
+
+
+
       </section>
     </div>
-<div>
-    
-    <h2>Meidian quicktest:</h2>
-  
-</div>
+
     
   </body>
 </html>
