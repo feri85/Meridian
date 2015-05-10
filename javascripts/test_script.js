@@ -8,7 +8,7 @@ var meridian=new Me.nsMeridian();
 			3:{name:'screwdriver>div',attributes:'id>metal'}
 		});
 		
-		var align=Pattern();		
+		var align=Pattern();	
 	
 		var changenode=function(){
 			egg.css.background_color=Use('stiling1').value;
@@ -36,6 +36,7 @@ var meridian=new Me.nsMeridian();
 		};
 		screwdriver.modify();
 		
+		align.setPattern('main_content>sandbox');
 		align.setPattern('sandbox>egg>screwdriver');
 		
 });
