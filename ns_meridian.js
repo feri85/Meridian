@@ -24,10 +24,11 @@ var ClassCreate={
 	isready:function(state){if(document.readyState=='complete'){Function.prototype[state].__proto__=null}}
 } /*Make FunctionObject with functionName.prototype=this expression  Use offsets(the old and ,this) to create advanced classes from others.*/
 
-var Me={
-	global_count:0,
-	nsMeridian:function(){Me.ready=true;}
-};
+var Me={};
+Me.global_count=0;
+Me.nsMeridian=function(){Me.ready=true;};
+Me.ruleList={};
+Me.bound='';
 
 Me.Drive=function(){
 	Me.Drive.prototype=this; 			  
@@ -38,7 +39,7 @@ Me.Drive=function(){
 	Me.Drive.usenode=Me.Use;
 	Me.Drive.compare=false;
 	Me.Drive.count=null;
-	Me.Drive.defaultName=null; //protected for object - public for user
+	Me.Drive.defaultName=null;			 //protected for object - public for user
 	Me.Drive.attributes=null;
 	Me.Drive.bvCache=null;
 	Me.Drive.system=window;
@@ -49,7 +50,7 @@ Me.Drive=function(){
 		this.path=document.children[0];
 		this.appname='meridian';
 		Me.Drive.defaultName='defaultMember';
-		Me.Drive.attributes=['name','type','id','class','action','value','component','alt','src','href','width','height','title','data'];
+		Me.Drive.attributes=['name','type','id','class','action','value','alt','src','href','width','height','title','data','lang','dir','content'];
 		Me.Drive.bvCache={};
 		_this=this
 	});
@@ -68,7 +69,7 @@ Me.Drive=function(){
 		};
 	};
 	Me.Drive.regx=function(p){
-		return new RegExp(p+"[a-zéáűúőóüíA-ZÉÁŰÚŐÓÜÍ\s\ \#\&\.\_\?\!\%\(\)\/\+0-9{1,}]{1,}","g");
+		return new RegExp(p+"[a-zéáűúőóüíA-ZÉÁŰÚŐÓÜÍ\s\ \#\&\.\:\;\_\?\!\%\(\)\/\+0-9{1,}]{1,}","g");
 	};
 	Me.Drive.compare=is_compare(this);
 	Me.Drive.attrcreator=function(node,prop,attrvalue){
@@ -89,15 +90,18 @@ Me.Drive=function(){
 		};
 	};
 	Me.Drive.even=function(type,content,handle,bool){
-		if(type && handle instanceof Function){
-			try{
+			if(type && handle instanceof Function){
+			function listener(){
 				if(document.all){
-					var type='on'+type;
-					content.attachEvent(type,handle);
+					return {capture:'attachEvent',pref:'on'};
 				}
 				else{
-					content.addEventListener(type,handle,bool);
-				};
+					return {capture:'addEventListener',pref:''};
+				}
+			}
+			try{
+				content[listener().capture](listener().pref+type,handle,bool);
+				
 			}catch(e){
 				_this.err="Error wrong type";
 			};
@@ -125,6 +129,7 @@ Me.defineMember=function(){
 		componentName:null,
 		number:null,
 	};
+	this.css={}; //to modyfy
 	this.component_data={};
 	this.err_log='no';
 	this.modify=function(){
@@ -141,7 +146,7 @@ Me.defineMember=function(){
 			return pref;
 		}
 		for(var c in this.component_data){
-			if(typeof this.component_data[c]!='function' && typeof this.component_data[c]!='object'){
+			if(typeof this.component_data[c]!='function' && typeof this.component_data[c]!='object' && c!='err_log'){
 				if(propdata[i]=="text"){
 					if(this.member.tagName==('INPUT'||'TEXTAREA')){
 						Me.Drive.attrcreator(this.member,'value',this.component_data[c]);
@@ -149,18 +154,21 @@ Me.defineMember=function(){
 					else{
 						this.member.textContent=this.component_data['text'];
 					};
-				};
+				}
+				else{
+					Me.Drive.attrcreator(this.member,c,this.component_data[c]);
+				}
 			};
 			i++;
 		};
 		//css maker
-		if(!window['stylesets']){
-			cssnode.setMember('stylesets>style');
-			stylesets.type='text/css';
-			stylesets.modify();
+		if(!window['me_stylesets']){
+			cssnode.setMember('me_stylesets>style');
+			me_stylesets.type='text/css';
+			me_stylesets.modify();
 			txt=document.createTextNode('');
-			stylesets.member.appendChild(txt);
-			document.head.appendChild(stylesets.member);
+			me_stylesets.member.appendChild(txt);
+			document.head.appendChild(me_stylesets.member);
 		};
 		rule_editor=function(process,e){
 			var items=Object.keys(process);
@@ -175,11 +183,14 @@ Me.defineMember=function(){
 					calc.push(that.member.attributes['component'].value);
 					calc.push(that.member.attributes['component'].nodeName)
 				}catch(err){
-						that.err_log='This property cannot be set, or not allowed!';
+					that.err_log='This property cannot be set, or not allowed!';
 				};
-				
-				Me.bound+=selfTag+' ['+calc[1]+'='+calc[0]+']'+e+'{\n'+props+'}\n'
-				stylesets.member.textContent=Me.bound;
+				if( e==''){
+					Me.ruleList[calc[0]]=selfTag+' ['+calc[1]+'='+calc[0]+']{\n'+props+'}\n';
+				}
+				else if( e!=''){
+					Me.ruleList[calc[0]+e.replace(':','_')]=selfTag+' ['+calc[1]+'='+calc[0]+']'+e+'{\n'+props+'}\n';
+				};
 			};
 		};
 		var css_perform=function(){ 
@@ -201,8 +212,12 @@ Me.defineMember=function(){
 					}
 				};
 				rule_editor(report,'');
-			}
+			};
 		}();
+		me_stylesets.member.textContent='';
+		for(var key in Me.ruleList){
+			me_stylesets.member.textContent+=Me.ruleList[key];
+		};
 	};
 	this.get=function(requested){
 		if(typeof requested=='string'){
@@ -214,6 +229,7 @@ Me.defineMember=function(){
 			};
 		};
 	};
+	
 	this.on=function(ev_type,handle_me){
 		if(ev_type && handle_me){
 			Me.Drive.even(ev_type,this.member,handle_me,false);
@@ -240,6 +256,7 @@ Me.Use=function(name){
 	Me.Use.prototype.element=null;
 	var q=null, i=0, _this=null;
 	this.constructor.construct(function(){
+		Me.Use.attributes.push('component');
 		if(name){
 			this.name=name;
 		}
@@ -266,7 +283,7 @@ Me.Use=function(name){
 					q=search(str,false);
 				};
 			}
-			while(i<Me.Use.attributes.length && !search(str))
+			while(i<Me.Use.attributes.length && !search(str));
 			arguments[0].element=q;
 		};
 	};
@@ -344,10 +361,10 @@ Me.CraftNew=function(){
 					Me.CraftNew.prepare_dna(
 						Me.CraftNew.new_member,
 						Me.CraftNew.new_member.attributes.getNamedItem('component').value,
+						_this
 					);
-				};
+				}
 			};
-			
 		};
 	};
 	engine(this,this.descriptor);
@@ -431,16 +448,16 @@ Me.setExternalSource=function(source,handle,list){
 	Me.setExternalSource.prototype=this;
 	Me.setExternalSource.prototype.source=null;
 	Me.setExternalSource.prototype.handle=null;
-	var xt=null, strv=null, loader_config=null, byname=null, cf=null, q=[];
+	var xt=null, strv=null, loader_config=null, byname=null, cf=null;
 	this.constructor.construct(function(){
 		this.handle=handle;
 		this.source=source;
 		this.prefix='';
-		xt=source.indexOf('js');
+		xt=source.indexOf('jsx');
 		loader_config=Me.CraftNew;
 		byname='';
 		cf=Me.setExternalSource.compare;
-		q=Me.setExternalSource.regx('()');
+		//q=Me.setExternalSource.regx('()');
 	});
 	var import_as=function(p){
 		new loader_config({
@@ -586,7 +603,7 @@ Me.Controls=function(type){
 	};
 };
 
-//This nsMeridian top Handlers, that must be in ISOLATED and separated names, allows to navigate.
+//This nsMeridian Protocol, that in use must be ISOLATED and separated names, allows to navigate.
 
 Me.nsMeridian.prototype={
 	accessMember:window['Member']=function(){
@@ -601,7 +618,8 @@ Me.nsMeridian.prototype={
 	},
 	accessUse:window['Use']=function(option){
 		var eqvip=new Me.Use(option);
-		return eqvip;
+		if(arguments[1]==true){return eqvip;}
+		else{return eqvip.element;}
 	},
 	accessEmulate:window['Emule']=function(){
 		var converter=new Me.Emulate();
