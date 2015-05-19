@@ -323,29 +323,31 @@ Me.CraftNew=function(){
 				};
 			}
 			for(var dim=0;dim<unf_name.length;dim++){
-				for(var nv=0;nv<unf_name[dim].length;nv++){
-					if(nv%2){
-						Me.global_count++;
-						_this.membernum=Me.global_count;
-						open_newresourcename(unf_name[dim][nv],unf_name[dim][nv-1]);
-						open_newattributes('component',unf_name[dim][nv-1]);
-						open_newattributes('membercount',Me.global_count);
-					};
-				};
-				if(unf_attributes[dim]){
-					for(var av=0;av<unf_attributes[dim].length;av++){
-						if(av%2){
-							open_newattributes(unf_attributes[dim][av-1],unf_attributes[dim][av])
+				if(typeof window[unf_name[dim][0]]=='undefined'){
+					for(var nv=0;nv<unf_name[dim].length;nv++){
+						if(nv%2){
+							Me.global_count++;
+							_this.membernum=Me.global_count;
+							open_newresourcename(unf_name[dim][nv],unf_name[dim][nv-1]);
+							open_newattributes('component',unf_name[dim][nv-1]);
+							open_newattributes('membercount',Me.global_count);
 						};
 					};
+					if(unf_attributes[dim]){
+						for(var av=0;av<unf_attributes[dim].length;av++){
+							if(av%2){
+								open_newattributes(unf_attributes[dim][av-1],unf_attributes[dim][av])
+							};
+						};
+					};
+					append(document.body);
+					Me.CraftNew.prepare_dna(
+						Me.CraftNew.new_member,
+						Me.CraftNew.new_member.attributes.getNamedItem('component').value,
+					);
 				};
-				append(document.body);
-				Me.CraftNew.prepare_dna(
-					Me.CraftNew.new_member,
-					Me.CraftNew.new_member.attributes.getNamedItem('component').value,
-					_this
-				);
 			};
+			
 		};
 	};
 	engine(this,this.descriptor);
