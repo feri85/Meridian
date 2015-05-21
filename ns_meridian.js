@@ -353,7 +353,9 @@ Me.CraftNew=function(){
 					if(unf_attributes[dim]){
 						for(var av=0;av<unf_attributes[dim].length;av++){
 							if(av%2){
-								open_newattributes(unf_attributes[dim][av-1],unf_attributes[dim][av])
+								var passattributes0=unf_attributes[dim][av-1].replace('_','-');
+								var passattributes1=unf_attributes[dim][av].replace('_','-');
+								open_newattributes(passattributes0,passattributes1);
 							};
 						};
 					};
