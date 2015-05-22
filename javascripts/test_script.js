@@ -3,10 +3,10 @@ window.onload=(function(){
 	var meridian=new Me.nsMeridian();
 	var member=Member({
 			1:{name:'egg>div',attributes:'id>eggmember'},
-			2:{name:'sandbox>div',attributes:'id>tryit>style>position:relative;width:600px;height:400px;overflow:hidden;border:1px solid black'},
+			2:{name:'sandbox>div',attributes:'id>tryit>style>position:relative;width:700px;height:auto;border:1px solid black'},
 			3:{name:'screwdriver>div',attributes:'id>metal'},
 			4:{name:'oil>p',attributes:'id>machines'},
-			5:{name:'hammer>div',attributes:'id>hard>style>width:400px;height:300px'}
+			5:{name:'hammer>div',attributes:'id>hard>style>width:300px;height:250px'}
 	});
 		
 	var align=Pattern();		
