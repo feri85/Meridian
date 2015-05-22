@@ -202,11 +202,109 @@ contact the author.</p>
 		</div>
 		<p class='paragraph'>Change egg attributes: <input type='button' id='changenode' value='modify egg'></p><br>
 	</div>
-
-	<hr>
+	<div>
+		<h3>The Pattern method:</h3>
+		<p class='paragraph'>
+			It's an professional getter, that describe for the page looks. It's generates 'patterns' from the page's elements.<br>
+			if Pattern has called into an variable, you may use the setPattern handler too.
+		</p>
+		<div class='eg'>
+			Pattern('parentelement>children1>children2...','children1>children3>...');<br>
+			<br>
+			var pattern=Pattern();<br>
+			pattern.setPattern('onlyoneargument>childnode1...');<br>
+			pattern.setPattern(<input type='text' value='' class='valuepicker' id='patterneditor'>);
+			<br>
+		<p class='paragraph'>Change egg attributes: 
+			<input type='button' id='changelooking1' value='modify pattern1'>
+			<input type='button' id='changelooking2' value='modify pattern2'>
+			<input type='button' id='changelooking3' value='custom pattern'>
+		</p><br>	
+		</div>
+	</div>
+	<div>
+		<h3>Use selector:</h3>
+		<p class='paragraph'>
+			This application has an selector handler, which called Use, this enable to get one, or more element refernece <br>
+			from a document, with an unique attribute name of the specified. If the second argument is true, then returns<br>
+			 self (object),with the element, otherwise returns the selected element only;
+		</p>
+		<div class='eg'>
+			Use('attributename').element;
+			<br>
+			<br>
+			Use('attributename');
+		</div>
+	</div>
 	<br>
-	
-	<h1>This chapter not finished yet!!</h1>
+	<div>
+		<h3>Emulate:</h3>
+		<p class='paragraph'>
+			The emulate process is an advanced selector, because it creates member objects from the captured html nodes.<br>
+			It's same as to the created elements. The usage is not to much differ than the Use selector.
+		</p>
+		<div class='eg'>
+			Emulate('attributename1',...);
+		</div>
+	</div>
+	<div>
+		<h3>LoadModul manager:</h3>
+		<p class='paragraph'>
+			Loads external css or javascript files, from a folder, that not before linked in a document.<br>
+			The css files only needed the path name of file, but the javascript files are not passed automaticaly.<br>
+			The javascript file extension must be .jsx file.<br>
+			The external function calls for different ways, from the file.
+			1. call in the sourcefile,<br>
+			2. call as a string with an parameter array,<br>
+			3. and  call in a general function named as string.<br>
+		<p>
+			script load without arguments:<br>
+			the handler defined and call in the external file.<br>
+		</p>
+		<div class='eg'>
+			loadModul('./path/filename.jsx');
+		</div>
+		<p class='paragraph'>
+			or
+		</p>
+		<div class='eg'>
+			loadModul('./path/filename.jsx','hadlername');
+		</div>
+		<p class='paragraph'>
+			or script loaded with handler, and has a parameterlist 
+		</p>
+		<div class='eg'>
+			loadMudul('./path/filename.jsx','hndlername',[parameters,...]);<br>
+			loadModul(<input type='text' value='' class='valuepicker' id='pathname'>,<input type='text' value='' class='valuepicker' id='handlername'>);
+		</div><br>
+		<p class='paragraph'> Load files: 
+			<input type='button' value='load script1' id='loader1'>
+			or load an selected file, available (variation:tools , timer:datetime) in the 'externals' folder:
+			<input type='button' value='load script2' id='loader2'>
+		</p>
+	</div>
+	<div>
+		<h3>Behave:</h3>
+		<p class='paragraph'>
+			This section under construction now, and may be change in the future! This operation register more event handlers<br>
+			to an object in at time. In this case only works on 'body' element.
+		</p>
+		<div class='eg'>
+			var event= Behave('event-type');
+			event.regist(function(){});
+			event.regist(...);
+		</div>
+		<p class='paragraph'>
+			or
+		</p>
+		<div class='eg'>
+			Behave('event-type').regist(function(){});
+		</div>
+	</div>
+	<br>
+	<div>
+		<h3>Sandbox:</h3>
+	</div>
 
       </section>
     </div>
