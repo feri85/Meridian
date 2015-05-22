@@ -44,13 +44,14 @@ window.onload=(function(){
 		egg.modify();
 	});
 	changenode();
+	align.setPattern('main_content>sandbox');
 	align.setPattern('sandbox>egg>screwdriver>oil>hammer');
 	Use('changelooking3').onclick=function(){
 		if(Use('patterneditor').value){
 			align.setPattern(Use('patterneditor').value);
 		}
 	}
-	align.setPattern('sandbox>egg>screwdriver>oil>hammer');
+
 		
 		Use('changenode').onclick=function(){
 			changenode();
