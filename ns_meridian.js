@@ -483,7 +483,8 @@ Me.setExternalSource=function(source,handle,list){
 			}while(_this.source[i]!='.');
 			switch(xt){
 				case -1:
-					strv={file:'text/css',cast:'link',anchor:'hrref',rel:'rel>stylesheet>'};
+					byname+='_x';
+					strv={file:'text/css',cast:'link',anchor:'href',rel:'rel>stylesheet>'};
 					import_as(_this);
 				break;
 				default:
