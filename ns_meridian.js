@@ -23,7 +23,7 @@ var ClassCreate={
 	},
 	isready:function(state){if(document.readyState=='complete'){Function.prototype[state].__proto__=null}}
 } /*Make FunctionObject with functionName.prototype=this expression  Use offsets(the old and ,this) to create advanced classes from others.*/
-
+//667
 
 var Me={};
 Me.global_count=0;
