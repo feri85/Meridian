@@ -335,10 +335,12 @@ Me.CraftNew=function(){
 						};
 						if(i=='attributes'){
 							unf_attributes.push(proplist[n][t].attributes.match(request));
+							
 						};
 					};
 				};
 			}
+			
 			for(var dim=0;dim<unf_name.length;dim++){
 				if(typeof window[unf_name[dim][0]]=='undefined'){
 					for(var nv=0;nv<unf_name[dim].length;nv++){
@@ -359,7 +361,7 @@ Me.CraftNew=function(){
 							};
 						};
 					};
-					append(document.body);
+					append(document.body || document.head);
 					Me.CraftNew.prepare_dna(
 						Me.CraftNew.new_member,
 						Me.CraftNew.new_member.attributes.getNamedItem('component').value,
@@ -450,11 +452,13 @@ Me.setExternalSource=function(source,handle,list){
 	Me.setExternalSource.prototype=this;
 	Me.setExternalSource.prototype.source=null;
 	Me.setExternalSource.prototype.handle=null;
+	Me.setExternalSource.prototype.data=null;
 	var xt=null, strv=null, loader_config=null, byname=null, cf=null;
 	this.constructor.construct(function(){
 		this.handle=handle;
 		this.source=source;
 		this.prefix='';
+		this.data='';
 		xt=source.indexOf('jsx');
 		loader_config=Me.CraftNew;
 		byname='';
@@ -483,7 +487,7 @@ Me.setExternalSource=function(source,handle,list){
 			}while(_this.source[i]!='.');
 			switch(xt){
 				case -1:
-					byname+='_x';
+					byname+='_x'
 					strv={file:'text/css',cast:'link',anchor:'href',rel:'rel>stylesheet>'};
 					import_as(_this);
 				break;
