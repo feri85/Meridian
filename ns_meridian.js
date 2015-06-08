@@ -543,14 +543,14 @@ Me.Emulate=function(){
 						case 'undefined':
 							for(var i=0; i<echo.element.length; i++){
 								_this.membernum++;
-								bound_DNA(echo.element[i],echo.element[i].className+i,_this);
+								new bound_DNA(echo.element[i],echo.element[i].className+i,_this);
 								Me.Emulate.attrcreator(echo.element[i],'componenet',echo.element[i].className+i); 	//to listed elements if set the class, then simply operate
 								Me.Emulate.attrcreator(echo.element[i],'membercount',_this.membernum-1);
 							}
 						break;
 						default:
 							_this.membernum++;
-							bound_DNA(echo.element,_this.mount[uints],_this);
+							new bound_DNA(echo.element,_this.mount[uints],_this);
 							Me.Emulate.attrcreator(echo.element,'componenet',_this.mount[uints]);
 							Me.Emulate.attrcreator(echo.element,'membercount',_this.membernum-1);
 						break;
