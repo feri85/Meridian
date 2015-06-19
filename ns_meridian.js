@@ -23,7 +23,6 @@ var ClassCreate={
 	},
 	isready:function(state){if(document.readyState=='complete'){Function.prototype[state].__proto__=null}}
 } /*Make FunctionObject with functionName.prototype=this expression  Use offsets(the old and ,this) to create advanced classes from others.*/
-//667
 
 var Me={};
 Me.global_count=0;
@@ -48,7 +47,14 @@ Me.Drive=function(){
 	this.constructor.construct(function(){
 		this.prefix="";
 		this.err="no error";
-		this.path=document.children[0];
+		this.path=function(){
+			if(!document.children){
+				return document.childNodes[1].childNodes[0]
+			}
+			else{
+				return document.children[0];
+			}
+		}();
 		this.appname='meridian';
 		Me.Drive.defaultName='defaultMember';
 		Me.Drive.attributes=['name','type','id','class','action','value','alt','src','href','width','height','title','data','lang','dir','content'];
@@ -57,7 +63,14 @@ Me.Drive=function(){
 	});
 	var is_compare=function(_this){
 		var wrapper={},count=[];
-		var place=_this.path.childNodes[0].childNodes;
+		var place=function(){
+			if(_this.path.childNodes[0].tagName){
+				return _this.path.childNodes[0].childNodes;
+			}
+			else{
+				return _this.path.childNodes;
+			}
+		}();
 		for(var t in place){
 			if(place[t].tagName=='SCRIPT'){
 				wrapper[t]=place[t];
@@ -70,7 +83,7 @@ Me.Drive=function(){
 		};
 	};
 	Me.Drive.regx=function(p){
-		return new RegExp(p+"[a-zéáűúőóüíA-ZÉÁŰÚŐÓÜÍ\s\ \#\&\.\:\;\_\?\!\%\(\)\/\+0-9{1,}]{1,}","g");
+		return new RegExp(p+"[a-zéáűúöőóüíA-ZÉÁŰÚÖŐÓÜÍ\s\ \#\&\.\:\;\_\?\!\%\(\)\/\+0-9{1,}]{1,}","g");
 	};
 	Me.Drive.compare=is_compare(this);
 	Me.Drive.attrcreator=function(node,prop,attrvalue){
@@ -130,9 +143,11 @@ Me.defineMember=function(){
 		componentName:null,
 		number:null,
 	};
+	this.backup={};
 	this.css={}; //to modyfy
 	this.component_data={};
 	this.err_log='no';
+	this.parent=function(){return this.member.parentNode};
 	this.modify=function(){
 		var block='', report={}, selector=[],calc=[], number=null, txt=null, bound='';
 		var selfTag=this.member.parentNode.tagName.toLowerCase(), that=this, valid=Me.Drive.attributes, cssnode=new Me.CraftNew() ;
@@ -176,7 +191,6 @@ Me.defineMember=function(){
 			var props='';
 			if(typeof items[0]!='undefined'){
 				for(var mark in process){
-					mark=browsertype(mark);
 					props+='\t\t'+mark.replace('_','-')+':'+process[mark]+';\n';
 					calc=[];
 				}
@@ -237,13 +251,39 @@ Me.defineMember=function(){
 		};
 	};
 	this.remove=function(q){
+		var n=0;
 		if(q==false){
-			delete window[this.memberName];
+			this.member.parentNode.removeChild(this.member);
 		}
 		else{
 			this.member.parentNode.removeChild(this.member);
 			delete window[this.memberName];
 		};
+		
+	};
+	this.restore=function(q){
+		var n=0;
+		var parenttag=this.member;
+		
+		switch(q){
+		case 'hide':
+			if(this.member.hasChildNodes()){
+				while(this.member.firstChild){
+					this.backup['node'+n]=this.member.firstChild;
+					this.member.removeChild(this.member.firstChild);
+					n++;
+				}
+				parenttag.style.display='none';
+			}
+			break;
+		default:
+			if(Object.keys(this.backup)){
+				for(var nodes in this.backup){
+					this.member.appendChild(this.backup[nodes]);
+				}
+				parenttag.style.display='block';
+			}
+		}
 	};
 	this.getError=function(){
 		return this.err_log;
@@ -336,7 +376,6 @@ Me.CraftNew=function(){
 						};
 						if(i=='attributes'){
 							unf_attributes.push(proplist[n][t].attributes.match(request));
-							
 						};
 					};
 				};
@@ -387,6 +426,14 @@ Me.CraftNew=function(){
 		this.descriptor=[{n1:{name:tn,attributes:ta}}];
 		engine(this,this.descriptor);
 	};
+	Me.CraftNew.prototype.isMember=function(membername){
+		if(window[membername]){
+			return true;
+		}
+		else{
+			return false;
+		}
+	};
 };
 
 Me.CreateQueue=function(){
@@ -400,8 +447,9 @@ Me.CreateQueue=function(){
 		usenode=Me.CreateQueue.usenode;
 	},{descriptor:arguments});
 	var moveto=function(to,target){
-		var o1=new usenode(to).element;
-		var o2=new usenode(target).element;
+		var o1=null, o2=null;
+		o1=new usenode(to).element;
+		o2=new usenode(target).element;
 		try{
 			o1.appendChild(o2);
 		}catch(e){
@@ -473,7 +521,7 @@ Me.setExternalSource=function(source,handle,list){
 				attributes:strv.rel+'type>'+strv.file+'>'+strv.anchor+'>'+p.source
 			}
 		});
-		var place=p.path.childNodes[0];
+		var place=(p.path||p.path.childNodes[0]);
 		place.insertBefore(window[byname].member,place.childNodes[cf.at]);
 	}
 	var whichfile=function(_this){
