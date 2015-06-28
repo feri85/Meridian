@@ -521,7 +521,7 @@ Me.setExternalSource=function(source,handle,list){
 				attributes:strv.rel+'type>'+strv.file+'>'+strv.anchor+'>'+p.source
 			}
 		});
-		var place=(p.path||p.path.childNodes[0]);
+		place=(p.path.tagName=='HTML')? p.path.childNodes[0] : p.path;
 		place.insertBefore(window[byname].member,place.childNodes[cf.at]);
 	}
 	var whichfile=function(_this){
