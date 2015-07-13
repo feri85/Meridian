@@ -57,7 +57,7 @@ Me.Drive=function(){
 		}();
 		this.appname='meridian';
 		Me.Drive.defaultName='defaultMember';
-		Me.Drive.attributes=['name','type','id','class','action','value','alt','src','href','width','height','title','data','lang','dir','content'];
+		Me.Drive.attributes=['','name','type','id','class','action','value','alt','src','href','width','height','title','data','lang','dir','content'];
 		Me.Drive.bvCache={};
 		_this=this
 	});
@@ -521,7 +521,7 @@ Me.setExternalSource=function(source,handle,list){
 				attributes:strv.rel+'type>'+strv.file+'>'+strv.anchor+'>'+p.source
 			}
 		});
-		place=(p.path.tagName=='HTML')? p.path.childNodes[0] : p.path;
+		var place=(p.path.tagName=='HTML')? p.path.childNodes[0] : p.path; //(p.path||p.path.childNodes[0]);
 		place.insertBefore(window[byname].member,place.childNodes[cf.at]);
 	}
 	var whichfile=function(_this){
