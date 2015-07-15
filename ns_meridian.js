@@ -14,7 +14,8 @@ var ClassCreate={
 		if(typeof data=='function'){
 			var craft=new data();data();
 			if(optional instanceof Object){
-				var backup=this.combine(this.prototype.constructor.arguments,optional); craft=this.combine(craft,optional);
+				this.combine(optional,craft); this.combine(this.prototype.constructor.arguments[0],craft);
+				//var backup=this.combine(this.prototype.constructor.arguments,optional); craft=this.combine(craft,optional);
 			}
 			for(var keys in craft){
 				if(this.prototype.hasOwnProperty(keys)){this.prototype[keys]=craft[keys];}delete window[keys]
