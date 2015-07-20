@@ -634,10 +634,17 @@ Me.Controls=function(type){
 		this.path=self;
 		cache=Me.Controls.superb.bvCache;
 		even=Me.Controls.superb.even;
+		use=Me.Controls.superb.usenode;
 	});
 	Me.Controls.prototype.regist=function(behavior){
 		var that=this;
 		if(type && !cache.hasOwnProperty(this.type)){
+			if(that.optionalnode){
+				connected=use(that.optionalnode);
+			}
+			else{
+				connected=that.path.parent
+			}
 			cache[this.type]=new Array();
 			cache[this.type][this.type.length]=behavior;
 			even(this.type,this.path.parent,function(event){  //registred only once
@@ -725,7 +732,8 @@ Me.nsMeridian.prototype={
 	registered functions on at time. Usage this process, first call Behave and sets the type
 	of event, the second case register the (event called) handlers for the event declared.
 	(this means under construction, it may changed any time).
-	Eg.: (etype).regist(handler), or var newevent=(type) newevent.regist(handler)...
+	Eg.: (etype).regist(handler), or var newevent=(type) newevent.regist(handler),
+	and regist behaviour on different elements: (eventtype,nodeId).regist(...)
 	
    About window member objects:
 	if the navigator objects already set in the page, you can simply use the HTML objects
