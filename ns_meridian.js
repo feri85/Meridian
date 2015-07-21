@@ -624,46 +624,43 @@ Me.Emulate=function(){
 	};
 };
 
-Me.Controls=function(type){
+Me.Controls=function(option){
 	Me.Controls.offsets(Me.Drive,this);
 	Me.Controls.prototype=this;
+	Me.Controls.prototype.params=null;
 	Me.Controls.prototype.type=null;
-	var cache=null, even=null;
+	Me.Controls.prototype.connect=null;
+	var cache=null, even=null, connected=null, use;
+	var that=this;
 	this.constructor.construct(function(){
-		this.type=type;
-		this.path=self;
 		cache=Me.Controls.superb.bvCache;
 		even=Me.Controls.superb.even;
 		use=Me.Controls.superb.usenode;
-	});
+	},{type:'no',connect:self.document});
 	Me.Controls.prototype.regist=function(behavior){
-		var that=this;
-		if(type && !cache.hasOwnProperty(this.type)){
-			if(that.optionalnode){
-				connected=use(that.optionalnode);
+		if(this.type!='no'){
+			if(option && !cache.hasOwnProperty(this.type)){
+				cache[this.type]=new Array();
+				cache[this.type].push(behavior);
+				even(this.type,this.connect,function(event){  //registred only once
+					
+					for(var i in cache[that.type]){
+						if(event){
+							var e=event;
+						}
+						else{
+							var e=null;
+						};
+						if(behavior instanceof Function){
+							cache[that.type][parseInt(i)](e);
+						};
+					};
+				},false);
 			}
 			else{
-				connected=that.path.parent
-			}
-			cache[this.type]=new Array();
-			cache[this.type][this.type.length]=behavior;
-			even(this.type,this.path.parent,function(event){  //registred only once
-				for(var i in cache[that.type]){
-					if(event){
-						var e=event;
-					}
-					else{
-						var e=null;
-					};
-					if(behavior instanceof Function){
-						cache[that.type][parseInt(i)](e);
-					};
-				};
-			},false);
+				cache[this.type].push(behavior);
+			};
 		}
-		else{
-			cache[this.type].push(behavior);
-		};
 	};
 };
 
