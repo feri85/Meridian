@@ -12,10 +12,9 @@ var ClassCreate={
 	},
 	_construct_shell:Function.prototype.construct=function(data,optional){
 		if(typeof data=='function'){
-			var craft=new data();data();
+			var craft=new data(),backup;data();
 			if(optional instanceof Object){
 				this.combine(optional,craft); this.combine(this.prototype.constructor.arguments[0],craft);
-				//var backup=this.combine(this.prototype.constructor.arguments,optional); craft=this.combine(craft,optional);
 			}
 			for(var keys in craft){
 				if(this.prototype.hasOwnProperty(keys)){this.prototype[keys]=craft[keys];}delete window[keys]
@@ -238,7 +237,12 @@ Me.defineMember=function(){
 	this.get=function(requested){
 		if(typeof requested=='string'){
 			try{
-				return this.component_data[requested];
+				if(!arguments[1]){
+					return this.component_data[requested];
+				}
+				else if(arguments[1]='@'){
+					return this.component_data.member.attributes[requested].value;
+				}
 			}
 			catch(e){
 				this.err_log="item not found!";
@@ -535,9 +539,10 @@ Me.setExternalSource=function(source,handle,list){
 				byname+=_this.source[i];
 				i++;
 			}while(_this.source[i]!='.');
+			
 			switch(xt){
 				case -1:
-					byname+='_x'
+					byname+='_x';
 					strv={file:'text/css',cast:'link',anchor:'href',rel:'rel>stylesheet>'};
 					import_as(_this);
 				break;
@@ -732,8 +737,7 @@ Me.nsMeridian.prototype={
 	registered functions on at time. Usage this process, first call Behave and sets the type
 	of event, the second case register the (event called) handlers for the event declared.
 	(this means under construction, it may changed any time).
-	Eg.: ({etype:eventtype}).regist(handler), or var newevent=({type:eventtype}) newevent.regist(handler),
-	and regist behaviour on different elements: ({type:eventtype,connect:nodeId}).regist(...)
+	Eg.: ({etype:eventtype}).regist(handler), or var newevent=({etype:eventtype}) newevent.regist(handler)...
 	
    About window member objects:
 	if the navigator objects already set in the page, you can simply use the HTML objects
