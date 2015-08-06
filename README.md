@@ -1,4 +1,4 @@
-# nsMeridian (encounter for DOM). v. 1.03.
+# nsMeridian (encounter for DOM)
 javascript web-application (front-end).
 
 This is the basic documentation for my 'short' javascript web program.
@@ -23,13 +23,12 @@ window.onload=function(){
 	window theme. It's makes a direct connection for the member node.
 	Eg.: {1:{name:_>type,attributes:item>values>...},2:{},3{},...}}
 	(this means under construction, it may changed any time).
-2. Pattern tool: this util helps you to manage a page design, orders the dependence between
+2. Pattern tool: this util helps you to manage an webpage design, orders the dependence between
 	DOM's nodes. The setPattern is same as the original. Use node attribute-names in bracelet
 	cases.
 	Eg.:("to>ordered>...","_>_",...).
 3. Use tool: select elements in a document, it's enough to use element one of attribute-name 
-	for request it, and the .element postfix has instance of the result.
-	Eg.:("atttrname").element
+	for request it.
 4. LoadModul tool: loads external css or javascript source. Assync with the main process.
 	basic setup:
 		-source:add full path of the script file.
