@@ -1,4 +1,4 @@
-# nsMeridian (encounter for DOM). v. 1.03.
+# nsMeridian (encounter for DOM). v.0 beta
 javascript web-application (front-end).
 
 This is the basic documentation for my 'short' javascript web program.
