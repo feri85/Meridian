@@ -61,8 +61,8 @@ HUN. description / Magyar:
 1.Member tool:
 
 	Egy vagy több HTML elemet lehet készíteni vele, ezek a body részeként jelennek meg, alapértelmezett
-	állapotban. Mindegyik elemhez regisztrál egy component azonosítót, melynek egyedinek kell lennie, és kötelező 
-	elem/ attribútum.
+	állapotban. Mindegyik elemhez regisztrál egy component azonosítót, melynek egyedinek kell lennie,
+	és kötelező elem/ attribútum.
 	A metódus 'árnyék' objektumokat készít a HTML elemmel egyidejűleg, melyek neve: 'Member' objektum, és  a
 	window rétegen lesznek elhelyezve. Ezután az objektumokra a component nevükkel lehet hivatlozni.
 	Egyetlen paramétere van, amely egy objektum, és ez bontódik több objektumra. Kizárólag objekumot fogad el.
