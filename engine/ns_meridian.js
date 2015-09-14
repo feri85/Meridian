@@ -261,10 +261,11 @@ Me.defineMember=function(){
 			this.member.parentNode.removeChild(this.member);
 		}
 		else{
-			this.member.parentNode.removeChild(this.member);
+			if(this.member.parentNode){
+				this.member.parentNode.removeChild(this.member);
+			}
 			delete window[this.memberName];
 		};
-		
 	};
 	this.restore=function(q){
 		var n=0;
