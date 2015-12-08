@@ -255,16 +255,32 @@ Me.defineMember=function(){
 			Me.Drive.even(ev_type,this.member,handle_me,false);
 		};
 	};
-	this.remove=function(q){
-		var n=0;
+	this.remove=function(q,mates){
 		if(q==false){
 			this.member.parentNode.removeChild(this.member);
 		}
-		else{
+		else if(q=='all'){
+			var maters=Array.prototype.slice.call(this.member.querySelectorAll('*'));
+			var componentslist=[];
+			for(var n=0; n<maters.length; n++){
+				maters[n].parentNode.removeChild(maters[n]);
+				var compounds=maters[n].attributes.getNamedItem('component');
+				if(compounds){
+					componentslist.push(compounds.value);
+				}
+			}
+			for(var i=0; i<componentslist.length; i++){
+				delete window[componentslist[i]];
+			}
 			this.member.parentNode.removeChild(this.member);
 			delete window[this.memberName];
+		}
+		else{
+			if(this.member.parentNode){
+				this.member.parentNode.removeChild(this.member);
+			}
+			delete window[this.memberName];
 		};
-		
 	};
 	this.restore=function(q){
 		var n=0;
